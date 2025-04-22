@@ -1,4 +1,4 @@
-name: Xcode - Build and Analyze
+name: Build and upload frameworks
 
 on:
   push:
@@ -8,34 +8,34 @@ on:
 
 jobs:
   build:
-    name: Build Carthage
+    name: Build barthage
     runs-on: macos-15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Switch Xcode Version
+      - name: Switch xcode version
         run: |
           sudo xcode-select -s /Applications/Xcode_16.3.app
 
-      - name: Copy Libs
+      - name: Copy libs
         run: |
           mkdir -p /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
           cp -R arc/* /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/
 
-      - name: Carthage Build
+      - name: Carthage build
         run: |
           carthage build --platform ios --use-xcframeworks --verbose
 
-      - name: Carthage Check
+      - name: Carthage check
         run: |
           cd Carthage/Build
           ls -l
 
-      - name: Upload Artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: BuiltFrameworks
+          name: Frameworks
           path: |
             Carthage/Build/*.xcframework
