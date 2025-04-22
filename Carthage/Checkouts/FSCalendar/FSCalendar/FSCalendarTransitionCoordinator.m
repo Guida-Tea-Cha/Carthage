@@ -127,40 +127,18 @@
     }
 }
 
-#define FLAG_T 0
-
 - (void)scopeTransitionDidUpdate:(UIPanGestureRecognizer *)panGesture
 {
     if (self.state != FSCalendarTransitionStateChanging) return;
     
-    CGFloat progress;
-    
-    if (FLAG_T) {
-        CGFloat translation = ABS([panGesture translationInView:panGesture.view].y);
-        progress = ({
-            CGFloat maxTranslation = ABS(CGRectGetHeight(self.transitionAttributes.targetBounds) - CGRectGetHeight(self.transitionAttributes.sourceBounds));
-            translation = MIN(maxTranslation, translation);
-            translation = MAX(0, translation);
-            CGFloat progress = translation/maxTranslation;
-            progress;
-        });
-        
-    } else {
-        CGFloat translation = [panGesture translationInView:panGesture.view].y;
-        progress = ({
-            CGFloat maxTranslation = CGRectGetHeight(self.transitionAttributes.targetBounds) - CGRectGetHeight(self.transitionAttributes.sourceBounds);
-            if (translation < 0 && maxTranslation < 0) {
-                translation = MAX(maxTranslation, translation);
-
-            } else {
-                translation = MIN(maxTranslation, translation);
-                translation = MAX(0, translation);
-            }
-            CGFloat progress = translation/maxTranslation;
-            progress;
-        });
-    }
-    
+    CGFloat translation = ABS([panGesture translationInView:panGesture.view].y);
+    CGFloat progress = ({
+        CGFloat maxTranslation = ABS(CGRectGetHeight(self.transitionAttributes.targetBounds) - CGRectGetHeight(self.transitionAttributes.sourceBounds));
+        translation = MIN(maxTranslation, translation);
+        translation = MAX(0, translation);
+        CGFloat progress = translation/maxTranslation;
+        progress;
+    });
     [self performAlphaAnimationWithProgress:progress];
     [self performPathAnimationWithProgress:progress];
 }
@@ -170,50 +148,17 @@
     if (self.state != FSCalendarTransitionStateChanging) return;
     
     self.state = FSCalendarTransitionStateFinishing;
-    
-    CGFloat translation;
-    CGFloat velocity;
-    CGFloat progress;
-    
-    if (FLAG_T) {
-        translation = [panGesture translationInView:panGesture.view].y;
-        velocity = [panGesture velocityInView:panGesture.view].y;
-        
-        progress = ({
-            CGFloat maxTranslation = CGRectGetHeight(self.transitionAttributes.targetBounds) - CGRectGetHeight(self.transitionAttributes.sourceBounds);
-            translation = MAX(0, translation);
-            translation = MIN(maxTranslation, translation);
-            CGFloat progress = translation/maxTranslation;
-            progress;
-        });
-        
-    } else {
-        translation = ABS([panGesture translationInView:panGesture.view].y);
-        velocity = ABS([panGesture velocityInView:panGesture.view].y);
-    
-        progress = ({
-            CGFloat maxTranslation = ABS(CGRectGetHeight(self.transitionAttributes.targetBounds) - CGRectGetHeight(self.transitionAttributes.sourceBounds));
-            translation = MIN(maxTranslation, translation);
-            translation = MAX(0, translation);
-            CGFloat progress = translation/maxTranslation;
-            progress;
-        });
-    }
-    
-    double diffToMonth = fabs(CGRectGetHeight(self.calendar.bounds) - CGRectGetHeight(self.transitionAttributes.monthBounds));
-    double diffToWeek = fabs(CGRectGetHeight(self.calendar.bounds) - CGRectGetHeight(self.transitionAttributes.weekBounds));
 
-    if (diffToMonth < diffToWeek) {
-        self.transitionAttributes.targetScope = FSCalendarScopeMonth;
-        self.transitionAttributes.targetBounds = self.transitionAttributes.monthBounds;
-        self.transitionAttributes.targetPage = self.transitionAttributes.monthTargetPage;
-
-    } else {
-        self.transitionAttributes.targetScope = FSCalendarScopeWeek;
-        self.transitionAttributes.targetBounds = self.transitionAttributes.weekBounds;
-        self.transitionAttributes.targetPage = self.transitionAttributes.weekTargetPage;
-    }
-
+    CGFloat translation = [panGesture translationInView:panGesture.view].y;
+    CGFloat velocity = [panGesture velocityInView:panGesture.view].y;
+    
+    CGFloat progress = ({
+        CGFloat maxTranslation = CGRectGetHeight(self.transitionAttributes.targetBounds) - CGRectGetHeight(self.transitionAttributes.sourceBounds);
+        translation = MAX(0, translation);
+        translation = MIN(maxTranslation, translation);
+        CGFloat progress = translation/maxTranslation;
+        progress;
+    });
     if (velocity * translation < 0) {
         [self.transitionAttributes revert];
     }
@@ -333,13 +278,6 @@
         targetPage;
     });
     attributes.targetBounds = [self boundingRectForScope:attributes.targetScope page:attributes.targetPage];
-
-    attributes.monthBounds = (CGRect){CGPointZero, (CGSize){MAX(CGRectGetWidth(attributes.targetBounds), CGRectGetWidth(attributes.sourceBounds)), MAX(CGRectGetHeight(attributes.targetBounds), CGRectGetHeight(attributes.sourceBounds))}};
-    attributes.weekBounds = (CGRect){CGPointZero, (CGSize){MIN(CGRectGetWidth(attributes.targetBounds), CGRectGetWidth(attributes.sourceBounds)), MIN(CGRectGetHeight(attributes.targetBounds), CGRectGetHeight(attributes.sourceBounds))}};
-    
-    attributes.monthTargetPage = [self.calendar.gregorian fs_firstDayOfMonth:attributes.focusedDate];
-    attributes.weekTargetPage = [self.calendar.gregorian fs_middleDayOfWeek:attributes.focusedDate];
-    
     return attributes;
 }
 

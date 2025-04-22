@@ -82,13 +82,7 @@
 - (void)openNetworkStreamWithCompletion:(SRProxyConnectCompletion)completion
 {
     _completion = completion;
-    if (self) {
-        if ([self isKindOfClass:[SRProxyConnect class]]) {
-            if ([self respondsToSelector:@selector(_configureProxy)]) {
-                [self _configureProxy];
-            }
-        }
-    }
+    [self _configureProxy];
 }
 
 ///--------------------------------------
@@ -183,17 +177,9 @@
             return;
         }
     }
-    if (self) {
-        if ([self isKindOfClass:[SRProxyConnect class]]) {
-            if ([self respondsToSelector:@selector(_readProxySettingWithType:settings:)]) {
-                [self _readProxySettingWithType:proxyType settings:settings];
-            }
-            
-            if ([self respondsToSelector:@selector(_openConnection)]) {
-                [self _openConnection];
-            }
-        }
-    }
+    [self _readProxySettingWithType:proxyType settings:settings];
+
+    [self _openConnection];
 }
 
 - (void)_readProxySettingWithType:(NSString *)proxyType settings:(NSDictionary *)settings

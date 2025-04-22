@@ -177,7 +177,7 @@ extern void YY_HSL2HSB(CGFloat h, CGFloat s, CGFloat l,
  
  @return        An UIColor object from string, or nil if an error occurs.
  */
-+ (nullable UIColor *)colorWithHexString:(NSString *)hexStr NS_SWIFT_NAME(colorWith(hexString:));
++ (nullable UIColor *)colorWithHexString:(NSString *)hexStr;
 
 /**
  Creates and returns a color object by add new color.

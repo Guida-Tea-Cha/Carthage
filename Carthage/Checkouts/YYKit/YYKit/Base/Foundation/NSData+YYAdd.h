@@ -176,16 +176,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSData *)hmacSHA512DataWithKey:(NSData *)key;
 
 /**
- Returns crc16 hash.
- */
-- (uint16_t)crc16;
-
-/**
- Returns crc16 data.
- */
-- (NSData *)crc16Data;
-
-/**
  Returns a lowercase NSString for crc32 hash.
  */
 - (NSString *)crc32String;
@@ -194,11 +184,6 @@ NS_ASSUME_NONNULL_BEGIN
  Returns crc32 hash.
  */
 - (uint32_t)crc32;
-
-/**
- Returns crc32 data.
- */
-- (NSData *)crc32Data;
 
 
 #pragma mark - Encrypt and Decrypt
@@ -219,18 +204,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSData *)aes256EncryptWithKey:(NSData *)key iv:(nullable NSData *)iv;
 
 /**
- Returns an encrypted NSData using AES with no padding.
- 
- @param key   A key length of 16, 24 or 32 (128, 192 or 256bits).
- 
- @param iv    An initialization vector length of 16(128bits).
-              Pass nil when you don't want to use iv.
- 
- @return      An NSData encrypted, or nil if an error occurs.
- */
-- (nullable NSData *)aes256EncryptNoPaddingWithKey:(NSData *)key iv:(nullable NSData *)iv;
-
-/**
  Returns an decrypted NSData using AES.
  
  @param key   A key length of 16, 24 or 32 (128, 192 or 256bits).
@@ -241,18 +214,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return      An NSData decrypted, or nil if an error occurs.
  */
 - (nullable NSData *)aes256DecryptWithkey:(NSData *)key iv:(nullable NSData *)iv;
-
-/**
- Returns an decrypted NSData using AES with no padding.
- 
- @param key   A key length of 16, 24 or 32 (128, 192 or 256bits).
- 
- @param iv    An initialization vector length of 16(128bits).
-              Pass nil when you don't want to use iv.
- 
- @return      An NSData decrypted, or nil if an error occurs.
- */
-- (nullable NSData *)aes256DecryptNoPaddingWithkey:(NSData *)key iv:(NSData *)iv;
 
 
 #pragma mark - Encode and decode
@@ -343,30 +304,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new data create from the file.
  */
 + (nullable NSData *)dataNamed:(NSString *)name;
-
-/**
- Fill Data with zeros to the nearest multiple of 16.
- @return Filled data.
- */
-- (NSData *)filledTo16Data;
-
-/**
- Fill Data with zeros to the specified length
- 
- @param filledSize Specified length.
- 
- @return Filled data.
- */
-- (NSData *)filledDataToSize:(NSInteger)filledSize;
-
-/**
- Split data into an array with specified length.
- 
- @param chunkSize Specified length.
- 
- @return Data chunk array.
- */
-- (NSArray *)splitBySize:(NSInteger)chunkSize;
 
 @end
 

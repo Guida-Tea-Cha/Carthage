@@ -153,21 +153,6 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     _formatter = [[NSDateFormatter alloc] init];
     _formatter.dateFormat = @"yyyy-MM-dd";
     _locale = [NSLocale currentLocale];
-    
-    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
-    if ([language hasPrefix:@"zh-Hans"] || [language hasPrefix:@"ii"] || [language hasPrefix:@"wuu-Hans"] || [language hasPrefix:@"yue-Hans"] || [language hasPrefix:@"zh-Hant"] || [language hasPrefix:@"yue-Hant"]) {
-        _locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh"];
-        
-    } else if ([language hasPrefix:@"ja"]) {
-        _locale = [[NSLocale alloc] initWithLocaleIdentifier:@"ja"];
-        
-    } else if ([language hasPrefix:@"es"]) {
-        _locale = [[NSLocale alloc] initWithLocaleIdentifier:@"es"];
-        
-    } else {
-        _locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en"];
-    }
-
     _timeZone = [NSTimeZone defaultTimeZone];
     _firstWeekday = 1;
     [self invalidateDateTools];
@@ -177,7 +162,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     
     
     _minimumDate = [self.formatter dateFromString:@"1970-01-01"];
-    _maximumDate = [self.formatter dateFromString:@"2999-12-31"];
+    _maximumDate = [self.formatter dateFromString:@"2099-12-31"];
     
     _headerHeight     = FSCalendarAutomaticDimension;
     _weekdayHeight    = FSCalendarAutomaticDimension;
@@ -1550,7 +1535,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         self.formatter.dateFormat = @"yyyy-MM-dd";
         NSDate *newMin = [self.dataSourceProxy minimumDateForCalendar:self]?:[self.formatter dateFromString:@"1970-01-01"];
         newMin = [self.gregorian startOfDayForDate:newMin];
-        NSDate *newMax = [self.dataSourceProxy maximumDateForCalendar:self]?:[self.formatter dateFromString:@"2999-12-31"];
+        NSDate *newMax = [self.dataSourceProxy maximumDateForCalendar:self]?:[self.formatter dateFromString:@"2099-12-31"];
         newMax = [self.gregorian startOfDayForDate:newMax];
         
         NSAssert([self.gregorian compareDate:newMin toDate:newMax toUnitGranularity:NSCalendarUnitDay] != NSOrderedDescending, @"The minimum date of calendar should be earlier than the maximum.");
