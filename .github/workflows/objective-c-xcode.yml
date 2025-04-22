@@ -14,12 +14,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Carthage Build
-        run: |
-          carthage build --platform ios --use-xcframeworks --verbose
 
-      - name: Carthage Check
+      - name: Copy Libs
         run: |
-          cd Carthage/Build
+          cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib
           ls -l
+
+          cp -R "arc" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib"
+
+          cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib
+          ls -l
+
+      # - name: Carthage Build
+      #   run: |
+      #     carthage build --platform ios --use-xcframeworks --verbose
+
+      # - name: Carthage Check
+      #   run: |
+      #     cd Carthage/Build
+      #     ls -l
