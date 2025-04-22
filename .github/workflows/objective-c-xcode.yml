@@ -17,8 +17,8 @@ jobs:
 
       - name: Copy Libs
         run: |
-          ls -l
-          
+          mkdir -p '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc'
+
           cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib
           ls -l
 
