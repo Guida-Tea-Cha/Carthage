@@ -9,13 +9,17 @@ on:
 jobs:
   build:
     name: Build Carthage
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Test
+      - name: Carthage Build
         run: |
-          ls -l
+          carthage build --platform ios --use-xcframeworks --verbose
 
+      - name: Carthage Check
+        run: |
+          cd Carthage/Build
+          ls -l
