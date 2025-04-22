@@ -17,25 +17,25 @@ jobs:
 
       - name: Switch Xcode Version
         run: |
-          xcode-select -p
           sudo xcode-select -s /Applications/Xcode_16.3.app
-          xcode-select -p
 
       - name: Copy Libs
         run: |
-          ls -l
-          
           mkdir -p /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
           cp -R arc/* /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/
-          
-          cd /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
+
+      - name: Carthage Build
+        run: |
+          carthage build --platform ios --use-xcframeworks --verbose
+
+      - name: Carthage Check
+        run: |
+          cd Carthage/Build
           ls -l
 
-      # - name: Carthage Build
-      #   run: |
-      #     carthage build --platform ios --use-xcframeworks --verbose
-
-      # - name: Carthage Check
-      #   run: |
-      #     cd Carthage/Build
-      #     ls -l
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: BuiltFrameworks
+          path: |
+            Carthage/Build/*.xcframework
