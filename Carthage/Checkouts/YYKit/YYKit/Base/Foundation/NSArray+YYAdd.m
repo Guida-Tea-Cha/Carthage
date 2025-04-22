@@ -12,11 +12,21 @@
 #import "NSArray+YYAdd.h"
 #import "YYKitMacro.h"
 #import "NSData+YYAdd.h"
+#import "NSObject+YYAdd.h"
+#import <objc/runtime.h>
 
 YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
 
 
 @implementation NSArray (YYAdd)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSArrayI") swizzleInstanceMethod:@selector(objectAtIndex:) with:@selector(objectAtVerifiedIndex:)];
+        [objc_getClass("__NSArrayI") swizzleInstanceMethod:@selector(objectAtIndexedSubscript:) with:@selector(objectAtVerifiedIndexedSubscript:)];
+    });
+}
 
 + (NSArray *)arrayWithPlistData:(NSData *)plist {
     if (!plist) return nil;
@@ -72,11 +82,39 @@ YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
     return nil;
 }
 
+- (id)objectAtVerifiedIndex:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectAtVerifiedIndex:index];
+    }
+    return nil;
+}
+
+- (id)objectAtVerifiedIndexedSubscript:(NSUInteger)idx {
+    if (idx < self.count) {
+        return [self objectAtVerifiedIndexedSubscript:idx];
+    }
+    return nil;
+}
+
 @end
 
 
 
 @implementation NSMutableArray (YYAdd)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(objectAtIndex:) with:@selector(objectAtVerifiedIndex:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(objectAtIndexedSubscript:) with:@selector(objectAtVerifiedIndexedSubscript:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(addObject:) with:@selector(addVerifiedObject:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(setObject:atIndexedSubscript:) with:@selector(setVerifiedObject:atVerifiedIndexedSubscript:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(insertObject:atIndex:) with:@selector(insertVerifiedObject:atVerifiedIndex:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(replaceObjectAtIndex:withObject:) with:@selector(replaceObjectAtVerifiedIndex:withVerifiedObject:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(removeObjectAtIndex:) with:@selector(removeObjectAtVerifiedIndex:)];
+        [objc_getClass("__NSArrayM") swizzleInstanceMethod:@selector(removeObjectsInRange:) with:@selector(removeObjectsInVerifiedRange:)];
+    });
+}
 
 + (NSMutableArray *)arrayWithPlistData:(NSData *)plist {
     if (!plist) return nil;
@@ -167,6 +205,76 @@ YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
         [self exchangeObjectAtIndex:(i - 1)
                   withObjectAtIndex:arc4random_uniform((u_int32_t)i)];
     }
+}
+
+- (id)objectAtVerifiedIndex:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectAtVerifiedIndex:index];
+    }
+    return nil;
+}
+
+- (id)objectAtVerifiedIndexedSubscript:(NSUInteger)idx {
+    if (idx < self.count) {
+        return [self objectAtVerifiedIndexedSubscript:idx];
+    }
+    return nil;
+}
+
+- (void)addVerifiedObject:(id)anObject {
+    if (anObject == nil) {
+        return;
+    }
+    [self addVerifiedObject:anObject];
+}
+
+- (void)setVerifiedObject:(id)obj atVerifiedIndexedSubscript:(NSUInteger)idx {
+    if (obj == nil) {
+        return;
+    }
+    if (idx > self.count) {
+        return;
+    }
+    [self setVerifiedObject:obj atVerifiedIndexedSubscript:idx];
+}
+
+- (void)insertVerifiedObject:(id)anObject atVerifiedIndex:(NSUInteger)index {
+    if (anObject == nil) {
+        return;
+    }
+    if (index > self.count) {
+        return;
+    }
+    [self insertVerifiedObject:anObject atVerifiedIndex:index];
+}
+
+- (void)replaceObjectAtVerifiedIndex:(NSUInteger)index withVerifiedObject:(id)anObject {
+    if (index > (self.count - 1)) {
+        return;
+    }
+    if (anObject == nil) {
+        return;
+    }
+    [self replaceObjectAtVerifiedIndex:index withVerifiedObject:anObject];
+}
+
+- (void)removeObjectAtVerifiedIndex:(NSUInteger)index {
+    if (index < self.count) {
+        [self removeObjectAtVerifiedIndex:index];
+    }
+}
+
+- (void)removeObjectsInVerifiedRange:(NSRange)range {
+    if (range.location > self.count) {
+        return;
+    }
+    if (range.length > self.count) {
+        return;
+    }
+    if ((range.location + range.length) > self.count) {
+        return;
+    }
+    [self removeObjectsInVerifiedRange:range];
 }
 
 @end

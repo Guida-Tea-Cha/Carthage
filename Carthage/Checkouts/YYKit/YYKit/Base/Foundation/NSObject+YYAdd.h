@@ -297,6 +297,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable id)deepCopyWithArchiver:(Class)archiver unarchiver:(Class)unarchiver;
 
+/**
+ Returns true if the object is neither empty nor nil.
+ */
+- (BOOL)isNotEmpty;
+
+/**
+ Returns all class name for current main bundle
+ */
++ (NSArray *)allClassName;
+
 @end
 
 NS_ASSUME_NONNULL_END

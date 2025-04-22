@@ -12,6 +12,7 @@
 #import "UIView+YYAdd.h"
 #import <QuartzCore/QuartzCore.h>
 #import "YYKitMacro.h"
+#import <objc/runtime.h>
 
 YYSYNTH_DUMMY_CLASS(UIView_YYAdd)
 
@@ -72,13 +73,28 @@ YYSYNTH_DUMMY_CLASS(UIView_YYAdd)
 
 
 - (UIViewController *)viewController {
-    for (UIView *view = self; view; view = view.superview) {
-        UIResponder *nextResponder = [view nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController *)nextResponder;
+    UIViewController *result = nil;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for (UIWindow * tmpWin in windows)  {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
         }
     }
-    return nil;
+    
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    
+    if ([nextResponder isKindOfClass:[UIViewController class]])
+        result = nextResponder;
+    else
+        result = window.rootViewController;
+    
+    return result;
 }
 
 - (CGFloat)visibleAlpha {
@@ -171,6 +187,122 @@ YYSYNTH_DUMMY_CLASS(UIView_YYAdd)
     rect = [to convertRect:rect fromWindow:from];
     rect = [self convertRect:rect fromView:to];
     return rect;
+}
+
+- (void)roundedByCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii {
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:cornerRadii];
+    maskPath.lineWidth = 0.f;
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = self.bounds;
+    maskLayer.path = maskPath.CGPath;
+    
+    self.layer.mask = maskLayer;
+}
+
+- (void)roundedByCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor {
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:cornerRadii];
+    maskPath.lineWidth = 0.f;
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = self.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.layer.mask = maskLayer;
+    
+    CAShapeLayer *borderLayer = [CAShapeLayer layer];
+    borderLayer.path = maskPath.CGPath;
+    borderLayer.frame = self.bounds;
+    borderLayer.fillColor = UIColor.clearColor.CGColor;
+    borderLayer.strokeColor = borderColor.CGColor;
+    borderLayer.lineWidth = borderWidth;
+
+    [self.layer addSublayer:borderLayer];
+}
+
+- (NSMutableDictionary *)gestureBlocks {
+    id obj = objc_getAssociatedObject(self, _cmd);
+    if (!obj) {
+        obj = [NSMutableDictionary dictionary];
+        objc_setAssociatedObject(self, @selector(gestureBlocks), obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return obj;
+}
+
+- (id)addGestureTarget:(id)target action:(SEL)action gestureClass:(Class)class {
+    UIGestureRecognizer *gesture = [[class alloc] initWithTarget:target action:action];
+    [self addGestureRecognizer:gesture];
+    return gesture;
+}
+
+- (UITapGestureRecognizer *)addGestureTapTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UITapGestureRecognizer class]];
+}
+
+- (UIPanGestureRecognizer *)addGesturePanTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UIPanGestureRecognizer class]];
+}
+
+- (UIPinchGestureRecognizer *)addGesturePinchTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UIPinchGestureRecognizer class]];
+}
+
+- (UILongPressGestureRecognizer *)addGestureLongPressTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UILongPressGestureRecognizer class]];
+}
+
+- (UISwipeGestureRecognizer *)addGestureSwipeTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UISwipeGestureRecognizer class]];
+}
+
+- (UIRotationGestureRecognizer *)addGestureRotationTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UIRotationGestureRecognizer class]];
+}
+
+- (UIScreenEdgePanGestureRecognizer *)addGestureScreenEdgePanTarget:(id)target action:(SEL)action {
+    return [self addGestureTarget:target action:action gestureClass:[UIScreenEdgePanGestureRecognizer class]];
+}
+
+- (id)addGestureEventHandle:(void (^)(id, id))event gestureClass:(Class)class {
+    UIGestureRecognizer *gesture = [[class alloc] initWithTarget:self action:@selector(handleGestureRecognizer:)];
+    [self addGestureRecognizer:gesture];
+    if (event) {
+        [[self gestureBlocks] setObject:event forKey:NSStringFromClass(class)];
+    }
+    return gesture;
+}
+
+- (UITapGestureRecognizer *)addGestureTapEventHandle:(void (^)(id sender, UITapGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UITapGestureRecognizer class]];
+}
+
+- (UIPanGestureRecognizer *)addGesturePanEventHandle:(void (^)(id sender, UIPanGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UIPanGestureRecognizer class]];
+}
+
+- (UIPinchGestureRecognizer *)addGesturePinchEventHandle:(void (^)(id sender, UIPinchGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UIPinchGestureRecognizer class]];
+}
+
+- (UILongPressGestureRecognizer *)addGestureLongPressEventHandle:(void (^)(id sender, UILongPressGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UILongPressGestureRecognizer class]];
+}
+
+- (UISwipeGestureRecognizer *)addGestureSwipeEventHandle:(void (^)(id sender, UISwipeGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UISwipeGestureRecognizer class]];
+}
+
+- (UIRotationGestureRecognizer *)addGestureRotationEventHandle:(void (^)(id sender, UIRotationGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UIRotationGestureRecognizer class]];
+}
+
+- (UIScreenEdgePanGestureRecognizer *)addGestureScreenEdgePanEventHandle:(void (^)(id sender, UIScreenEdgePanGestureRecognizer *recognizer))event {
+    return [self addGestureEventHandle:event gestureClass:[UIScreenEdgePanGestureRecognizer class]];
+}
+
+- (void)handleGestureRecognizer:(UIGestureRecognizer *)gesture {
+    NSString *key = NSStringFromClass(gesture.class);
+    void (^block)(id sender, UIGestureRecognizer *tap) = [self gestureBlocks][key];
+    block ? block(self, gesture) : nil;
 }
 
 - (CGFloat)left {
@@ -266,6 +398,26 @@ YYSYNTH_DUMMY_CLASS(UIView_YYAdd)
 - (void)setSize:(CGSize)size {
     CGRect frame = self.frame;
     frame.size = size;
+    self.frame = frame;
+}
+
+- (CGFloat)x {
+    return self.frame.origin.x;
+}
+
+- (void)setX:(CGFloat)x {
+    CGRect frame = self.frame;
+    frame.origin.x = x;
+    self.frame = frame;
+}
+
+- (CGFloat)y {
+    return self.frame.origin.y;
+}
+
+- (void)setY:(CGFloat)y {
+    CGRect frame = self.frame;
+    frame.origin.y = y;
     self.frame = frame;
 }
 

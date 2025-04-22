@@ -1,0 +1,16 @@
+"MJRefreshHeaderIdleText" = "Desliza hacia abajo para actualizar";
+"MJRefreshHeaderPullingText" = "Suéltelo para actualizar";
+"MJRefreshHeaderRefreshingText" = "Cargando...";
+
+"MJRefreshAutoFooterIdleText" = "Toca o desliza hacia arriba para cargar más";
+"MJRefreshAutoFooterRefreshingText" = "Cargando...";
+"MJRefreshAutoFooterNoMoreDataText" = "No mas datos";
+
+"MJRefreshBackFooterIdleText" = "Toca o desliza hacia arriba para cargar más";
+"MJRefreshBackFooterPullingText" = "Suelte para cargar más";
+"MJRefreshBackFooterRefreshingText" = "Cargando...";
+"MJRefreshBackFooterNoMoreDataText" = "No mas datos";
+
+"MJRefreshHeaderLastTimeText" = "Última actualización:";
+"MJRefreshHeaderDateTodayText" = "Hoy dia";
+"MJRefreshHeaderNoneLastDateText" = "no recuerdo";

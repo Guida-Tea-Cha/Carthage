@@ -393,6 +393,10 @@ YYSYNTH_DUMMY_CLASS(NSString_YYAdd)
     return [self dataUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (NSData *)dataByHexValue {
+    return [NSData dataWithHexString:self];
+}
+
 - (NSRange)rangeOfAll {
     return NSMakeRange(0, self.length);
 }
@@ -409,6 +413,10 @@ YYSYNTH_DUMMY_CLASS(NSString_YYAdd)
         str = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
     }
     return str;
+}
+
+- (NSDecimalNumber *)decimalValue {
+    return [[NSDecimalNumber alloc] initWithString:self];
 }
 
 @end
