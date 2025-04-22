@@ -15,17 +15,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Switch Xcode Version
+        run: |
+          xcode-select -p
+          sudo xcode-select -s /Applications/Xcode_16.3.app
+          xcode-select -p
+
       - name: Copy Libs
         run: |
-          mkdir -p '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc'
-
-          cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib
+          mkdir -p /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
+          cp -R /arc/* /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/
+          
+          cd /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
           ls -l
-
-          # cp -R "./arc" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/"
-
-          # cd /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib
-          # ls -l
 
       # - name: Carthage Build
       #   run: |
