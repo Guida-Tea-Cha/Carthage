@@ -47,6 +47,10 @@ YYSYNTH_DUMMY_CLASS(NSNotificationCenter_YYAdd)
     [[self class] performSelectorOnMainThread:@selector(_yy_postNotificationName:) withObject:info waitUntilDone:wait];
 }
 
+- (id <NSObject>)addObserverForName:(NSNotificationName)name usingBlock:(void (^)(NSNotification *note))block {
+    return [[[self class] defaultCenter] addObserverForName:name object:nil queue:nil usingBlock:block];
+}
+
 + (void)_yy_postNotification:(NSNotification *)notification {
     [[self defaultCenter] postNotification:notification];
 }

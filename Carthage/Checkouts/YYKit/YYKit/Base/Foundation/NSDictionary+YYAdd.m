@@ -13,6 +13,8 @@
 #import "NSString+YYAdd.h"
 #import "NSData+YYAdd.h"
 #import "YYKitMacro.h"
+#import "NSObject+YYAdd.h"
+#import <objc/runtime.h>
 
 YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
 
@@ -357,6 +359,16 @@ return def;
 
 @implementation NSMutableDictionary (YYAdd)
 
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [objc_getClass("__NSDictionaryM") swizzleInstanceMethod:@selector(setValue:forKey:) with:@selector(setValue:forVerifiedKey:)];
+        [objc_getClass("__NSDictionaryM") swizzleInstanceMethod:@selector(setObject:forKey:) with:@selector(setObject:forVerifiedKey:)];
+        [objc_getClass("__NSDictionaryM") swizzleInstanceMethod:@selector(setObject:forKeyedSubscript:) with:@selector(setObject:forVerifiedKeyedSubscript:)];
+        [objc_getClass("__NSDictionaryM") swizzleInstanceMethod:@selector(removeObjectForKey:) with:@selector(removeObjectForVerifiedKey:)];
+    });
+}
+
 + (NSMutableDictionary *)dictionaryWithPlistData:(NSData *)plist {
     if (!plist) return nil;
     NSMutableDictionary *dictionary = [NSPropertyListSerialization propertyListWithData:plist options:NSPropertyListMutableContainersAndLeaves format:NULL error:NULL];
@@ -387,6 +399,33 @@ return def;
         }
     }
     return [dic copy];
+}
+
+- (void)setValue:(id)value forVerifiedKey:(NSString *)key {
+    if (key == nil) {
+        return;
+    }
+    [self setValue:value forVerifiedKey:key];
+}
+
+- (void)setObject:(id)anObject forVerifiedKey:(id<NSCopying>)aKey {
+    if (aKey == nil) {
+        return;
+    }
+    [self setObject:anObject forVerifiedKey:aKey];
+}
+
+- (void)setObject:(id)obj forVerifiedKeyedSubscript:(id<NSCopying>)key {
+    if (key == nil) {
+        return;
+    }
+    [self setObject:obj forVerifiedKeyedSubscript:key];
+}
+
+- (void)removeObjectForVerifiedKey:(id)aKey {
+    if (aKey != nil) {
+        [self removeObjectForVerifiedKey:aKey];
+    }
 }
 
 @end

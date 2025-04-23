@@ -45,6 +45,12 @@ typedef NS_ENUM(NSUInteger, FSCalendarTransitionState) {
 @property (strong, nonatomic) NSDate *focusedDate;
 @property (assign, nonatomic) FSCalendarScope targetScope;
 
+@property (assign, nonatomic) CGRect monthBounds;
+@property (assign, nonatomic) CGRect weekBounds;
+
+@property (strong, nonatomic) NSDate *monthTargetPage;
+@property (strong, nonatomic) NSDate *weekTargetPage;
+
 - (void)revert;
     
 @end

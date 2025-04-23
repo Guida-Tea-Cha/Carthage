@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Returns an NSString from base64 encoded string.
- @param base64Encoding The encoded string.
+ @param base64EncodedString The encoded string.
  */
 + (nullable NSString *)stringWithBase64EncodedString:(NSString *)base64EncodedString;
 
@@ -383,6 +383,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSData *)dataValue;
 
 /**
+ Returns an NSData using HEX encoding.
+ */
+- (NSData *)dataByHexValue;
+
+/**
  Returns NSMakeRange(0, self.length).
  */
 - (NSRange)rangeOfAll;
@@ -403,6 +408,11 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new string create from the file in UTF-8 character encoding.
  */
 + (nullable NSString *)stringNamed:(NSString *)name;
+
+/**
+ Returns an NSDecimalNumber create by string
+ */
+- (NSDecimalNumber *)decimalValue;
 
 @end
 
