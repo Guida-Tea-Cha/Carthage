@@ -37,10 +37,10 @@ internal extension IQKeyboardAppearanceManager {
             guard let self = self else { return }
             switch event {
             case .beginEditing:
-                guard self.keyboardConfiguration.overrideAppearance,
-                      textInputView.keyboardAppearance != self.keyboardConfiguration.appearance else { return }
+                guard keyboardConfiguration.overrideAppearance,
+                      textInputView.keyboardAppearance != keyboardConfiguration.appearance else { return }
 
-                textInputView.keyboardAppearance = self.keyboardConfiguration.appearance
+                textInputView.keyboardAppearance = keyboardConfiguration.appearance
                 textInputView.reloadInputViews()
             case .endEditing:
                 break

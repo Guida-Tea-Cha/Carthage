@@ -105,17 +105,16 @@ internal final class IQActiveConfiguration: NSObject {
                     // Also the interactiveGesture becomes inactive (genuinely it's state is .possible)
                     // At this moment.
                     rootController.view.publisher(for: \.frame)
-                        .sink(receiveValue: { [weak self] frame in
-                            guard let self = self else { return }
+                        .sink(receiveValue: { [self] frame in
                             print(frame)
                             guard frame.origin == .zero,
                                   !rootConfiguration.isInteractiveGestureActive else { return }
 
-                            self.cancellable.forEach { $0.cancel() }
-                            self.cancellable.removeAll()
+                            cancellable.forEach { $0.cancel() }
+                            cancellable.removeAll()
 
                             // Restore keyboard info and textInputViewInfo
-                            self.notify(event: .change, keyboardInfo: keyboardInfo, textInputViewInfo: textInputViewInfo)
+                            notify(event: .change, keyboardInfo: keyboardInfo, textInputViewInfo: textInputViewInfo)
                         }).store(in: &cancellable)
 
                 } else {
@@ -178,17 +177,17 @@ extension IQActiveConfiguration {
 
             guard let self = self else { return }
 
-            guard self.keyboardObserver.oldKeyboardInfo.endFrame.height != endFrame.height else { return }
+            guard keyboardObserver.oldKeyboardInfo.endFrame.height != endFrame.height else { return }
 
-            if let info = self.textInputViewInfo, self.keyboardInfo.isVisible {
-                if let rootConfiguration = self.rootConfiguration {
+            if let info = textInputViewInfo, keyboardInfo.isVisible {
+                if let rootConfiguration = rootConfiguration {
                     let beginIsPortrait: Bool = rootConfiguration.beginOrientation.isPortrait
                     let currentIsPortrait: Bool = rootConfiguration.currentOrientation.isPortrait
                     if beginIsPortrait != currentIsPortrait {
-                        self.updateRootController(textInputView: info.textInputView)
+                        updateRootController(textInputView: info.textInputView)
                     }
                 } else {
-                    self.updateRootController(textInputView: info.textInputView)
+                    updateRootController(textInputView: info.textInputView)
                 }
             }
 
@@ -196,8 +195,8 @@ extension IQActiveConfiguration {
 
             // If interactive pop gesture is active then we don't want to remove this textField
             if endFrame.height == 0,
-               !(self.rootConfiguration?.isInteractiveGestureActive ?? false) {
-                self.updateRootController(textInputView: nil)
+               !(rootConfiguration?.isInteractiveGestureActive ?? false) {
+                updateRootController(textInputView: nil)
             }
         })
     }
@@ -241,7 +240,7 @@ extension IQActiveConfiguration {
             }
 
             if event == .beginEditing {
-                self.updateRootController(textInputView: textInputView)
+                updateRootController(textInputView: textInputView)
                 self.sendEvent()
             }
         })

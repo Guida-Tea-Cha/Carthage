@@ -38,10 +38,10 @@ internal extension IQKeyboardResignHandler {
             guard let self = self else { return }
             switch event {
             case .beginEditing:
-                self.resignGesture.isEnabled = self.privateResignOnTouchOutside()
-                textInputView.window?.addGestureRecognizer(self.resignGesture)
+                resignGesture.isEnabled = privateResignOnTouchOutside()
+                textInputView.window?.addGestureRecognizer(resignGesture)
             case .endEditing:
-                textInputView.window?.removeGestureRecognizer(self.resignGesture)
+                textInputView.window?.removeGestureRecognizer(resignGesture)
             }
         })
     }

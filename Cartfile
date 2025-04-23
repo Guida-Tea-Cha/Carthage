@@ -1,14 +1,14 @@
-github "SoySauceLab/CollectionKit"
-github "marmelroy/FileBrowser"
-github "WenchaoD/FSCalendar"
-github "hackiftekhar/IQKeyboardManager"
-github "CoderMJLee/MJExtension"
-github "CoderMJLee/MJRefresh"
-github "ReactiveX/RxSwift"
-github "SnapKit/SnapKit"
-github "facebook/SocketRocket"
-github "12207480/TYCyclePagerView"
-github "banchichen/TZImagePickerController"
-github "ibireme/YYKit"
-github "marmelroy/Zip"
-github "ZipArchive/ZipArchive"
+github "SoySauceLab/CollectionKit" == 2.4.0
+github "marmelroy/FileBrowser" == 1.0.0
+github "WenchaoD/FSCalendar" == 2.8.4
+github "hackiftekhar/IQKeyboardManager" == 8.0.0
+github "CoderMJLee/MJExtension" == 3.4.2
+github "CoderMJLee/MJRefresh" == 3.7.9
+github "ReactiveX/RxSwift" == 6.8.0
+github "SnapKit/SnapKit" == 5.7.1
+github "facebook/SocketRocket" == 0.7.1
+github "12207480/TYCyclePagerView" == 1.2.1
+github "banchichen/TZImagePickerController" == 3.8.8
+github "ibireme/YYKit" == 1.0.9
+github "marmelroy/Zip" == 2.1.2
+github "ZipArchive/ZipArchive" == 2.6.0
