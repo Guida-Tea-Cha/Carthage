@@ -23,7 +23,9 @@ jobs:
         run: |
           mkdir -p /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc
           cp -R arc/* /Applications/Xcode_16.3.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/arc/
-
+      - name: Set up GitHub access token
+        run: echo "GITHUB_ACCESS_TOKEN=${{ secrets.ACCESS_TOKEN }}" >> $GITHUB_ENV
+        
       - name: Carthage build
         run: |
           carthage build --platform ios --use-xcframeworks
