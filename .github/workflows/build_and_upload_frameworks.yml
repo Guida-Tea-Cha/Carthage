@@ -26,7 +26,7 @@ jobs:
 
       - name: Carthage build
         run: |
-          carthage build --platform ios --use-xcframeworks --verbose
+          carthage build --platform ios --use-xcframeworks
 
       - name: Carthage check
         run: |
