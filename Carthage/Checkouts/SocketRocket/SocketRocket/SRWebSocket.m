@@ -10,8 +10,8 @@
 //
 
 #import "SRWebSocket.h"
-#import "Foundation/Foundation.h"
-#import "UIKit/UIKit.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <sys/sysctl.h>
 
 #define BUHE549gnDSretfsd() \

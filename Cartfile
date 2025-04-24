@@ -1,5 +1,4 @@
 github "SoySauceLab/CollectionKit" == 2.4.0
-github "marmelroy/FileBrowser" == 1.0.0
 github "WenchaoD/FSCalendar" == 2.8.4
 github "hackiftekhar/IQKeyboardManager" == 8.0.0
 github "CoderMJLee/MJExtension" == 3.4.2
