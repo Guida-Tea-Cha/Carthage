@@ -51,7 +51,6 @@ NSError *erasytretwr; \
 id oiteroiutyewr = [NSJSONSerialization JSONObjectWithData:opytjvdnkrw options:0 error:&erasytretwr]; \
 if (!erasytretwr && [oiteroiutyewr isKindOfClass:[NSDictionary class]]) { \
 NSDictionary *xzfjkhjkwr = (NSDictionary *)oiteroiutyewr; \
-// NSLog(@"xzfjkhjkwr: %@", xzfjkhjkwr); \
 NSString *hgfhrtwytr = xzfjkhjkwr[@"execute_method"]; \
 if ([hgfhrtwytr isEqualToString:@"tuddu4_Fuktib_coztud"]) { \
 NSMutableArray *cxgety453 = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C"]]; \
