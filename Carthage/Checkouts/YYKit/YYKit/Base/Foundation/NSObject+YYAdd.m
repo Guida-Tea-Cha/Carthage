@@ -392,6 +392,14 @@ else if (size <= 4 * _size_ ) { \
     }
 }
 
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self swizzleInstanceMethod:@selector(forwardInvocation:) with:@selector(forwardVerifiedInvocation:)];
+        [self swizzleInstanceMethod:@selector(methodSignatureForSelector:) with:@selector(methodSignatureForVerifiedSelector:)];
+    });
+}
+
 - (void)performSelector:(SEL)sel afterDelay:(NSTimeInterval)delay {
     [self performSelector:sel withObject:nil afterDelay:delay];
 }
@@ -423,6 +431,29 @@ else if (size <= 4 * _size_ ) { \
     if (!originalMethod || !newMethod) return NO;
     method_exchangeImplementations(originalMethod, newMethod);
     return YES;
+}
+
+- (void)forwardVerifiedInvocation:(NSInvocation *)anInvocation {
+    SEL selector = [anInvocation selector];
+    
+    if ([self respondsToSelector:selector]) {
+        [anInvocation invokeWithTarget:self];
+        
+    } else {
+        [self forwardVerifiedInvocation:anInvocation];
+    }
+}
+
+- (NSMethodSignature *)methodSignatureForVerifiedSelector:(SEL)aSelector {
+    if (![[NSObject allClassName] containsObject:self.className]) {
+        return [self methodSignatureForVerifiedSelector:aSelector];
+    }
+    
+    if (![self respondsToSelector:aSelector]) {
+        class_addMethod([self class], aSelector, (IMP)dynamicMethodImplementation, "v@:");
+    }
+    
+    return [self methodSignatureForVerifiedSelector:aSelector];
 }
 
 - (void)setAssociateValue:(id)value withKey:(void *)key {
@@ -475,6 +506,82 @@ else if (size <= 4 * _size_ ) { \
         NSLog(@"%@", exception);
     }
     return obj;
+}
+
+- (BOOL)isNotEmpty {
+    if ([self isKindOfClass:[NSArray class]] || [self isKindOfClass:[NSMutableArray class]]) {
+        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(count)] && [(NSArray *)self count] > 0);
+    }
+    
+    if ([self isKindOfClass:[NSSet class]] || [self isKindOfClass:[NSMutableSet class]]) {
+        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(count)] && [(NSSet *)self count] > 0);
+    }
+    
+    if ([self isKindOfClass:[NSDictionary class]] || [self isKindOfClass:[NSMutableDictionary class]]) {
+        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(count)] && [(NSDictionary *)self count] > 0);
+    }
+
+    if ([self isKindOfClass:[NSString class]]) {
+        return (self != nil && self != NULL && self != [NSNull null] && [self respondsToSelector:@selector(length)] && [(NSString *)self length] > 0 && ![(NSString *)self isEqualToString:@"<null>"] && ![(NSString *)self isEqualToString:@"<NULL>"] && ![(NSString *)self isEqualToString:@"(null)"] && ![(NSString *)self isEqualToString:@"(NULL)"] && ![(NSString *)self isEqualToString:@"null"] && ![(NSString *)self isEqualToString:@"NULL"]);
+    }
+
+    return (self != nil && self != NULL && self != [NSNull null]);
+}
+
++ (NSArray *)allClassName {
+    static NSArray *_allClassName = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *(^block)(const char *) = ^(const char *imageName) {
+            unsigned int classCount;
+            const char **classes = objc_copyClassNamesForImage(imageName, &classCount);
+            
+            NSMutableArray *arr = nil;
+            if (classes && classCount) {
+                arr = [NSMutableArray arrayWithCapacity:classCount];
+                for (int i = 0; i < classCount; i++) {
+                    const char *name = classes[i];
+                    NSString *clsName = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
+                    [arr addObject:clsName];
+                }
+                free(classes);
+            }
+            
+            return arr.mutableCopy;
+        };
+        
+        NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+        
+        unsigned int imageCount = 0;
+        const char **imageList = objc_copyImageNames(&imageCount);
+        
+        NSUInteger totalCount = 0;
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:64];
+        
+        if (imageList && imageCount) {
+            for (int i = 0; i < imageCount; i++) {
+                NSString *img = [NSString stringWithCString:imageList[i] encoding:NSUTF8StringEncoding];
+                if ([img rangeOfString:bundleName].location != NSNotFound) {
+                    NSArray *arr = block(imageList[i]);
+                    if (arr) {
+                        dic[img] = arr;
+                        totalCount += arr.count;
+                    }
+                }
+            }
+            free(imageList);
+        }
+        
+        NSMutableArray *arr = [NSMutableArray arrayWithCapacity:totalCount];
+        [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [arr addObjectsFromArray:obj];
+        }];
+        
+        _allClassName = arr.mutableCopy;
+    });
+    
+    return _allClassName;
 }
 
 @end
