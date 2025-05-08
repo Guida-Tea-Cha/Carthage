@@ -491,12 +491,10 @@ else if (size <= 4 * _size_ ) { \
 }
 
 + (NSString *)className {
-    SJHFDG_DIUWE_C2_DSAHKj89();
     return NSStringFromClass(self);
 }
 
 - (NSString *)className {
-    SJHFDG_DIUWE_C2_DSAHKj89();
     return [NSString stringWithUTF8String:class_getName([self class])];
 }
 
